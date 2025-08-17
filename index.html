@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student HTML Debugging</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1e1e2f;
+            color: #fff;
+            padding: 30px;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: #ffd700;
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .box {
+            background-color: rgba(50, 50, 80, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+            box-shadow: 0 0 15px #ff69b4;
+        }
+
+        pre {
+            background-color: #0d0d25;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+            color: #00ffcc;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        b {
+            color: #ff6347;
+        }
+
+        button {
+            display: block;
+            margin: 15px auto;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            background-color: #ffd700;
+            color: #1e1e2f;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #ff6347;
+            color: #fff;
+        }
+
+        .dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            opacity: 0.8;
+            top: -10px;
+            animation-name: fall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10px);
+            }
+
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Oops! This Code Can't Run 😅</h1>
+
+    <div class="container">
+        <div class="box" id="code">
+            <h2 id="title1">Original Code</h2>
+            <pre>
+&lt;!DOCTYPE html&gt;
+
+&lt;html&gt;
+
+&lt;head&gt; &lt;title&gt; Thanking bossa &lt;/title&gt;
+
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;div&gt;p&gt;
+
+&lt;i&gt; Thank you sir! &lt;/i&gt; you are &lt;b&gt; ChatGPT &lt;/b&gt;, but with better jokes, ho crashes when we ask dumb questions, and the main reason Our brains haven't gone on strike..... yet and funnier, never freezing When we ask nonsense and some how keeping our last three brain cells alive.
+
+&lt;/P&gt;
+
+&lt;/div&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;
+        </pre>
+        </div>
+
+        <div class="box">
+            <h2 id="title2">What’s Wrong?</h2>
+            <div id="cotend">
+                <ul>
+                    <li><b>&lt;div&gt;p&gt;</b> → Invalid tag sequence. Should be <code>&lt;div&gt;&lt;p&gt;</code>.
+                    </li>
+                    <li><b>ho crashes</b> → Typo. Should be <b>who crashes</b>.</li>
+                    <li><b>&lt;/P&gt;</b> → Tag mismatch. Use lowercase <code>&lt;/p&gt;</code>.</li>
+                    <li><b>Some how</b> → Should be <b>somehow</b>.</li>
+                    <li><b>Our brains</b> → Should be lowercase <b>our brains</b> in the middle of a sentence.</li>
+                    <li>Multiple periods <b>.....</b> → Use 1–3 periods max (<b>…</b>).</li>
+                    <li>HTML formatting → The <code>&lt;i&gt;</code> and <code>&lt;b&gt;</code> tags are okay, but text
+                        structure could be cleaner.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <button onclick="showFixed()" id="button">Error Fix</button>
+
+
+    <script>
+        function showFixed() {
+            const livePreview = `
+        &lt;!DOCTYPE html&gt;
+        &lt;html&gt;
+        &lt;head&gt;&lt;style&gt
+            body { font-family: Arial; background: #f0f8ff; color: #000; padding: 20px; }
+            i { color: #00bfff; } b { color: #ff4500; }
+        &lt;/style&gt;&lt;/head&gt;
+        &lt;body&gt;
+            &lt;div&gt;&lt;p&gt;&lt;i&gt;Thank you sir!&lt;/i&gt; You are &lt;b&gt;ChatGPT&lt;/b&gt;, but with better jokes, who never crashes when we ask dumb questions, and the main reason our brains haven't gone on strike… yet, somehow keeping our last three brain cells alive.&lt;/p&gt;&lt;/div&gt;
+        &lt;/body&gt;
+        &lt;/html&gt;
+    `;
+
+            const btn = document.getElementById('button');
+            btn.innerHTML = "Are you want see riply 😁";
+            btn.onclick = function () {
+                window.location.href = "riply.html";
+            };
+            document.getElementById('title1').innerHTML = "corrected Code";
+            document.getElementById('title2').innerHTML = "My Browser view";
+            document.getElementById('code').style.display = "none"
+            document.getElementById('cotend').innerHTML = `<iframe srcdoc="${livePreview.replace(/"/g, '&quot;')}" style="width:100%; height:250px; border:2px solid #fff; border-radius:10px;"></iframe>`;
+
+            for (let i = 0; i < 100; i++) {
+                createDot();
+            }
+            setInterval(createDot, 50);
+        }
+
+        function createDot() {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            dot.style.left = Math.random() * window.innerWidth + 'px';
+            dot.style.backgroundColor = getRandomColor();
+            dot.style.animationDuration = (2 + Math.random() * 3) + 's';
+            document.body.appendChild(dot);
+            setTimeout(() => dot.remove(), 6000);
+        }
+
+        function getRandomColor() {
+            const colors = ['#ff69b4', '#ffd700', '#00ffcc', '#ff6347', '#00bfff'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+    </script>
+</body>
+
+</html>
